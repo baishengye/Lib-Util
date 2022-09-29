@@ -113,4 +113,13 @@ public final class NetworkUtils {
         return NetworkState.NONE;
     }
 
+    /**
+     * 判断网络是否连接
+     * @return 网络是否连接
+     */
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    public static boolean isConnected() {
+        return getNetworkState() == NetworkState.NONE;
+    }
+
 }
