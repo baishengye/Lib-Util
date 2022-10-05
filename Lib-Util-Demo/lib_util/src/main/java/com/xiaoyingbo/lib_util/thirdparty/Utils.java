@@ -1,4 +1,4 @@
-package com.xiaoyingbo.lib_util;
+package com.xiaoyingbo.lib_util.thirdparty;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

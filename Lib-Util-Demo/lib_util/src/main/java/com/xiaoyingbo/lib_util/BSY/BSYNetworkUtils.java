@@ -1,4 +1,4 @@
-package com.xiaoyingbo.lib_util.network;
+package com.xiaoyingbo.lib_util.BSY;
 
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 
@@ -7,12 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.RequiresPermission;
 
-import com.xiaoyingbo.lib_util.Utils;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**网络工具类*/
-public final class NetworkUtils {
+public final class BSYNetworkUtils {
 
     /**获得详细的网络状态
      * @return
@@ -26,14 +28,14 @@ public final class NetworkUtils {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     public static int getDetailedNetworkState() {
         //获取系统的网络服务
-        ConnectivityManager connManager = (ConnectivityManager) Utils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connManager = (ConnectivityManager) BSYUtils.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
         //如果当前没有网络
         if (null == connManager)
-            return NetworkState.NONE;
+            return BSYNetworkState.NONE;
         //获取当前网络类型，如果为空，返回无网络
         NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
         if (activeNetInfo == null || !activeNetInfo.isAvailable()) {
-            return NetworkState.NONE;
+            return BSYNetworkState.NONE;
         }
 
         // 判断是不是连接的是不是wifi
@@ -42,7 +44,7 @@ public final class NetworkUtils {
             NetworkInfo.State state = wifiInfo.getState();
             if (null != state)
                 if (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) {
-                    return NetworkState.WIFI;
+                    return BSYNetworkState.WIFI;
                 }
         }
 
@@ -60,7 +62,7 @@ public final class NetworkUtils {
                         case TelephonyManager.NETWORK_TYPE_EDGE: // 移动2g
                         case TelephonyManager.NETWORK_TYPE_1xRTT:
                         case TelephonyManager.NETWORK_TYPE_IDEN:
-                            return NetworkState.MOBILE_2G;
+                            return BSYNetworkState.MOBILE_2G;
                         //如果是3g类型
                         case TelephonyManager.NETWORK_TYPE_EVDO_A: // 电信3g
                         case TelephonyManager.NETWORK_TYPE_UMTS:
@@ -71,23 +73,23 @@ public final class NetworkUtils {
                         case TelephonyManager.NETWORK_TYPE_EVDO_B:
                         case TelephonyManager.NETWORK_TYPE_EHRPD:
                         case TelephonyManager.NETWORK_TYPE_HSPAP:
-                            return NetworkState.MOBILE_3G;
+                            return BSYNetworkState.MOBILE_3G;
                         //如果是4g类型
                         case TelephonyManager.NETWORK_TYPE_LTE:
-                            return NetworkState.MOBILE_4G;
+                            return BSYNetworkState.MOBILE_4G;
                         case TelephonyManager.NETWORK_TYPE_NR: //对应的20 只有依赖为android 10.0才有此属性
-                            return NetworkState.MOBILE_5G;
+                            return BSYNetworkState.MOBILE_5G;
                         default:
                             //中国移动 联通 电信 三种3G制式
                             if (strSubTypeName.equalsIgnoreCase("TD-SCDMA") || strSubTypeName.equalsIgnoreCase("WCDMA") || strSubTypeName.equalsIgnoreCase("CDMA2000")) {
-                                return NetworkState.MOBILE_3G;
+                                return BSYNetworkState.MOBILE_3G;
                             } else {
-                                return NetworkState.MOBILE;
+                                return BSYNetworkState.MOBILE;
                             }
                     }
                 }
         }
-        return NetworkState.NONE;
+        return BSYNetworkState.NONE;
     }
 
     /**获得简单的网络状态
@@ -97,20 +99,20 @@ public final class NetworkUtils {
      * {@code NetworkState.MOBILE}:移动网络<br>*/
     @RequiresPermission(ACCESS_NETWORK_STATE)
     public static int getNetworkState() {
-        @NetworkState int networkState=getDetailedNetworkState();
+        @BSYNetworkState int networkState=getDetailedNetworkState();
         switch (networkState) {
-            case NetworkState.MOBILE:
-            case NetworkState.MOBILE_2G:
-            case NetworkState.MOBILE_3G:
-            case NetworkState.MOBILE_4G:
-            case NetworkState.MOBILE_5G:
-                return NetworkState.MOBILE;
-            case NetworkState.NONE:
-                return NetworkState.NONE;
-            case NetworkState.WIFI:
-                return NetworkState.WIFI;
+            case BSYNetworkState.MOBILE:
+            case BSYNetworkState.MOBILE_2G:
+            case BSYNetworkState.MOBILE_3G:
+            case BSYNetworkState.MOBILE_4G:
+            case BSYNetworkState.MOBILE_5G:
+                return BSYNetworkState.MOBILE;
+            case BSYNetworkState.NONE:
+                return BSYNetworkState.NONE;
+            case BSYNetworkState.WIFI:
+                return BSYNetworkState.WIFI;
         }
-        return NetworkState.NONE;
+        return BSYNetworkState.NONE;
     }
 
     /**
@@ -119,7 +121,27 @@ public final class NetworkUtils {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     public static boolean isConnected() {
-        return getNetworkState() == NetworkState.NONE;
+        return getNetworkState() == BSYNetworkState.NONE;
     }
 
+    /**网络状态*/
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({BSYNetworkState.NONE, BSYNetworkState.MOBILE, BSYNetworkState.WIFI,
+            BSYNetworkState.MOBILE_2G, BSYNetworkState.MOBILE_3G, BSYNetworkState.MOBILE_4G, BSYNetworkState.MOBILE_5G})
+    public @interface BSYNetworkState {
+        /**无网络连接*/
+        int NONE=-0x1;
+        /**非移动,电信,联通运营商提供的移动信号,识别不出来是什么移动信号时*/
+        int MOBILE=0x0;
+        /**Wifi信号*/
+        int WIFI=0x1;
+        /**移动,电信,联通运营商提供的移动信号*/
+        int MOBILE_2G=0x2;
+        /**移动,电信,联通运营商提供的移动信号*/
+        int MOBILE_3G=0x3;
+        /**移动,电信,联通运营商提供的移动信号*/
+        int MOBILE_4G=0x4;
+        /**移动,电信,联通运营商提供的移动信号*/
+        int MOBILE_5G=0x5;
+    }
 }

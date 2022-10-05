@@ -1,32 +1,14 @@
-package com.xiaoyingbo.lib_util;
+package com.xiaoyingbo.lib_util.BSY;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 /**Log的工具类*/
-public class LogUtils {
-    public Boolean mIsDebug;
-
-    private static volatile LogUtils instance;
-
-    private LogUtils(boolean isDebug){
-        this.mIsDebug=isDebug;
-    }
-
-    public static LogUtils getInstance(boolean isDebug){
-        if(instance==null){
-            synchronized (LogUtils.class){
-                if(instance==null){
-                    instance=new LogUtils(isDebug);
-                }
-            }
-        }
-        return instance;
-    }
+public class BSYLogUtils {
 
     /**debug的日志*/
-    public void d(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void d(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.d(tag,msg);
         }else{
@@ -35,8 +17,8 @@ public class LogUtils {
     }
 
     /**Verbose的日志*/
-    public void v(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void v(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.v(tag,msg);
         }else {
@@ -45,8 +27,8 @@ public class LogUtils {
     }
 
     /**info的日志*/
-    public void i(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void i(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.i(tag,msg);
         }else {
@@ -55,8 +37,8 @@ public class LogUtils {
     }
 
     /**warn的日志*/
-    public void w(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void w(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.w(tag,msg);
         }else {
@@ -65,8 +47,8 @@ public class LogUtils {
     }
 
     /**error的日志*/
-    public void e(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void e(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.e(tag,msg);
         }else {
@@ -75,8 +57,8 @@ public class LogUtils {
     }
 
     /**asset的日志:错误严重到可能会把程序崩溃*/
-    public void wtf(String tag,String msg,Throwable t){
-        if(!mIsDebug) return;
+    public static void wtf(boolean isDebug,String tag,String msg,Throwable t){
+        if(!isDebug) return;
         if(null==t){
             Log.wtf(tag,msg);
         }else if(TextUtils.isEmpty(msg)){
