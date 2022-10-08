@@ -26,7 +26,8 @@ public class BSYTextUtils {
 
     /**字符串是合法密码*/
     public static boolean isPassword(String text){
-        return !isEmpty(text);//先这么写，后面再改
+        if(text==null) return false;
+        return text.length()>=8&&text.length()<=16;
     }
 
     /**两个字符串是不是一样的*/
@@ -45,5 +46,11 @@ public class BSYTextUtils {
      */
     public static boolean isEmail(String value) {
         return value.matches(REGEX_EMAIL);
+    }
+
+    /**是否是合法的验证码*/
+    public static boolean isCapture(String value) {
+        if(value==null) return false;
+        return value.length()==4;
     }
 }
