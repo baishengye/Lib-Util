@@ -7,9 +7,11 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:clickable="true"
+        android:id="@+id/custom_toast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="弹出自定义Toast"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
