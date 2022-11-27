@@ -1,4 +1,4 @@
-package com.xiaoyingbo.lib_util.BSY;
+package com.xiaoyingbo.lib_util.BSY.util;
 
 import android.app.Application;
 import android.content.Context;

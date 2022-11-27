@@ -1,6 +1,8 @@
-package com.xiaoyingbo.lib_util.BSY;
+package com.xiaoyingbo.lib_util.BSY.util;
 
 import android.text.TextUtils;
+
+import java.nio.charset.StandardCharsets;
 
 public class BSYTextUtils {
     /**判断是为空*/
@@ -49,8 +51,25 @@ public class BSYTextUtils {
     }
 
     /**是否是合法的验证码*/
-    public static boolean isCapture(String value) {
-        if(value==null) return false;
-        return value.length()==4;
+    public static boolean isCode(String value) {
+        if(isEmpty(value)) return false;
+        return value.length()>=4;
+    }
+
+    /**合法的密码*/
+    public static final String REGEX_NM_PASSWORD="^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{8,20}$";
+    public static boolean isPassword(String value, String regex){
+        if(isEmpty(value)) return false;
+        return value.matches(regex);
+    }
+    public static boolean isNMPassword(String value){
+        if(isEmpty(value)) return false;
+        return value.matches(REGEX_NM_PASSWORD);
+    }
+
+    /**合法的用户名*/
+    public static boolean isUsername(String value){
+        if(isEmpty(value)) return false;
+        return value.getBytes(StandardCharsets.UTF_8).length>=4;
     }
 }

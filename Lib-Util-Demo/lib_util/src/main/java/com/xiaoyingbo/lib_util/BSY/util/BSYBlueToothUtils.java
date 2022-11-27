@@ -1,4 +1,4 @@
-package com.xiaoyingbo.lib_util.BSY;
+package com.xiaoyingbo.lib_util.BSY.util;
 
 /**操作蓝牙使用的工具类*/
 public class BSYBlueToothUtils {
