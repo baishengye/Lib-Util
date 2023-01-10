@@ -121,7 +121,7 @@ public final class BSYNetworkUtils {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     public static boolean isConnected() {
-        return getNetworkState() == BSYNetworkState.NONE;
+        return getNetworkState() != BSYNetworkState.NONE;
     }
 
     /**网络状态*/
